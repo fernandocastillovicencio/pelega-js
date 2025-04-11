@@ -204,14 +204,6 @@
             };
           }
 
-          function mediaTime(lista) {
-            const soma = lista.reduce(
-              (acc, j) => acc + (parseFloat(j.mg) || 3),
-              0
-            );
-            return (soma / lista.length).toFixed(2);
-          }
-
           const organizadoA = organizarPorPosicao(timeA);
           const organizadoB = organizarPorPosicao(timeB);
 
@@ -247,6 +239,11 @@
           document.getElementById('app').appendChild(box);
         });
       }
+      function mediaTime(lista) {
+        const soma = lista.reduce((acc, j) => acc + (parseFloat(j.mg) || 3), 0);
+        return (soma / lista.length).toFixed(2);
+      }
+
       <!-- ----------------------------------------------------------------------- -->
       // (4) Seleciona dois capitães aleatórios da mesma posição tática
       function selecionarCapitaes(lista) {
@@ -320,29 +317,44 @@
           const outroTime = turno === 'A' ? timeB : timeA;
 
           const contAtual = contagem(timeAtual);
-          const contOutro = contagem(outroTime);
 
-          // Define a posição mais carente
+          // Calcula média atual dos times
+          const mediaAtual = mediaTime(timeAtual);
+          const mediaOutro = mediaTime(outroTime);
+          const mediaDesejada =
+            (parseFloat(mediaAtual) + parseFloat(mediaOutro)) / 2;
+
+          // Define posição mais carente
           const posicoes = ['Z', 'M', 'A'];
           const faltando = posicoes.sort((a, b) => contAtual[a] - contAtual[b]);
+          const posDesejada = faltando[0];
 
-          let posDesejada = faltando[0];
-
-          // Filtra os jogadores disponíveis na posição desejada
+          // Filtra os disponíveis na posição desejada
           let candidatos = restantes.filter((j) => j.pos === posDesejada);
 
-          // Se não houver na posição, pega qualquer um
           if (candidatos.length === 0) {
             candidatos = [...restantes];
           }
 
-          // Ordena candidatos por melhor média
-          candidatos.sort((a, b) => b.mg - a.mg);
+          // Ordena os candidatos por quão próximo da média desejada eles manteriam o time
+          candidatos.sort(
+            (a, b) =>
+              Math.abs(
+                (mediaAtual * timeAtual.length + a.mg) /
+                  (timeAtual.length + 1) -
+                  mediaDesejada
+              ) -
+              Math.abs(
+                (mediaAtual * timeAtual.length + b.mg) /
+                  (timeAtual.length + 1) -
+                  mediaDesejada
+              )
+          );
 
           const escolhido = candidatos[0];
           timeAtual.push(escolhido);
 
-          // Remove o escolhido da lista
+          // Remove o escolhido
           const idx = restantes.findIndex((j) => j.id === escolhido.id);
           if (idx !== -1) restantes.splice(idx, 1);
 

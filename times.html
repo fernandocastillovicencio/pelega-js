@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Times</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <h1>Times</h1>
+      <p>Cole abaixo a lista de confirmados da semana:</p>
+
+      <textarea id="inputLista" rows="15" style="width: 100%"></textarea>
+      <br /><br />
+
+      <label for="numTimes">Número de times:</label>
+      <select id="numTimes">
+        <option value="2">2 Times</option>
+        <option value="3">3 Times</option>
+      </select>
+      <br /><br />
+
+      <button onclick="processarLista()">Processar Lista</button>
+
+      <h2>Jogadores Identificados:</h2>
+      <ul id="listaConfirmados"></ul>
+
+      <!-- Navegação entre páginas -->
+      <nav>
+        <ul>
+          <li><a href="ranking.html">Ranking</a></li>
+          <li><a href="jogadores.html">Jogadores</a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <!-- PapaParse para ler CSV -->
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
+    <script>
+      let baseJogadores = {}; // Mapa de id → dados do jogador
+      let jogadoresConfirmados = []; // Lista final com mg e posição
+
+      function extrairNomes(texto) {
+        const linhas = texto.split('\n');
+        let capturando = false;
+        let nomes = [];
+
+        for (let linha of linhas) {
+          linha = linha.trim();
+
+          if (linha.includes('AVULSOS')) {
+            capturando = true;
+            continue;
+          }
+
+          if (linha.includes('GOLEIROS')) {
+            capturando = false;
+            continue;
+          }
+
+          if (linha.includes('MENSALISTAS')) {
+            capturando = true;
+            continue;
+          }
+
+          if (capturando && linha.match(/^\d+\-/)) {
+            let nomeOriginal = linha
+              .replace(/^\d+\-/, '')
+              .split('+')[0]
+              .trim();
+            let nomeInterno = nomeOriginal
+              .normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, '')
+              .replace(/\s+/g, '')
+              .toLowerCase();
+            if (nomeInterno) nomes.push(nomeInterno);
+          }
+        }
+
+        return nomes;
+      }
+
+      function carregarBase(callback) {
+        Papa.parse('data/jogadores.csv', {
+          download: true,
+          header: true,
+          complete: function (results) {
+            results.data.forEach((jog) => {
+              if (jog.id) {
+                baseJogadores[jog.id.trim().toLowerCase()] = jog;
+              }
+            });
+            callback();
+          },
+        });
+      }
+
+      // (1) Calcula média ponderada (mg)
+      function calcularMG(jogador) {
+        const fisico = parseFloat(jogador.Físico) || 3;
+        const velocidade = parseFloat(jogador.Velocidade) || 3;
+        const defesa = parseFloat(jogador.Defesa) || 3;
+        const ataque = parseFloat(jogador.Ataque) || 3;
+        const tatica = parseFloat(jogador.Tática) || 3;
+        const tecnica = parseFloat(jogador.Técnica) || 3;
+
+        const mg =
+          fisico * 0.4 +
+          velocidade * 0.2 +
+          defesa * 0.1 +
+          ataque * 0.1 +
+          tatica * 0.05 +
+          tecnica * 0.05;
+
+        return parseFloat(mg.toFixed(2));
+      }
+
+      // (2.1) Classifica a posição tática (Z, M ou A) com base em Pos1
+      function posicaoTatica(jogador) {
+        const pos = (jogador.Pos1 || '').toUpperCase().trim();
+
+        const grupoZ = ['CB', 'SW', 'LB', 'RB'];
+        const grupoM = ['LM', 'RM', 'CM', 'CDM', 'CAM'];
+        const grupoA = ['ST', 'LW', 'RW'];
+
+        if (grupoZ.includes(pos)) return 'Z';
+        if (grupoM.includes(pos)) return 'M';
+        if (grupoA.includes(pos)) return 'A';
+
+        return 'M'; // valor default se não reconhecido
+      }
+
+      // (3) Processa a lista de confirmados
+      function processarLista() {
+        const texto = document.getElementById('inputLista').value;
+        const nomesExtraidos = extrairNomes(texto);
+        jogadoresConfirmados = [];
+
+        carregarBase(() => {
+          const ul = document.getElementById('listaConfirmados');
+          ul.innerHTML = '';
+
+          nomesExtraidos.forEach((id) => {
+            let jogador = baseJogadores[id];
+            const li = document.createElement('li');
+
+            if (!jogador) {
+              li.textContent = `⚠️ ${id} (não encontrado - usando valores padrão)`;
+              jogador = {
+                id: id,
+                Nome: id,
+                Defesa: 3,
+                Físico: 3,
+                Tática: 3,
+                Velocidade: 3,
+                Técnica: 3,
+                Ataque: 3,
+              };
+              baseJogadores[id] = jogador;
+            } else {
+              li.textContent = jogador.Nome;
+            }
+
+            const mg = calcularMG(jogador);
+            const pos = posicaoTatica(jogador); // usa somente Pos1, como você pediu
+
+            jogadoresConfirmados.push({
+              id: id,
+              nome: jogador.Nome,
+              mg: mg,
+              pos: pos,
+              ...jogador,
+            });
+
+            ul.appendChild(li);
+          });
+
+          console.table(jogadoresConfirmados); // debug
+
+          // COLAR AQUI:
+          const { capitaoA, capitaoB } =
+            selecionarCapitaes(jogadoresConfirmados);
+          const div = document.createElement('div');
+          div.innerHTML = `
+  <h3>Capitães Selecionados:</h3>
+  <p><strong>Capitão A:</strong> ${capitaoA.nome} (mg: ${capitaoA.mg}, pos: ${capitaoA.pos})</p>
+  <p><strong>Capitão B:</strong> ${capitaoB.nome} (mg: ${capitaoB.mg}, pos: ${capitaoB.pos})</p>
+`;
+          document.getElementById('app').appendChild(div);
+        });
+      }
+      <!-- ----------------------------------------------------------------------- -->
+      // (4) Seleciona dois capitães aleatórios da mesma posição tática
+      function selecionarCapitaes(lista) {
+        if (lista.length < 2) {
+          console.warn('Jogadores insuficientes para definir dois capitães.');
+          return { capitaoA: null, capitaoB: null };
+        }
+
+        // Embaralhar a lista
+        const embaralhados = [...lista].sort(() => Math.random() - 0.5);
+
+        // Tenta encontrar dois da mesma posição tática
+        for (let i = 0; i < embaralhados.length; i++) {
+          const cap1 = embaralhados[i];
+          const candidatosMesmaPos = embaralhados.filter(
+            (j) => j.id !== cap1.id && j.pos === cap1.pos
+          );
+
+          if (candidatosMesmaPos.length > 0) {
+            const cap2 =
+              candidatosMesmaPos[
+                Math.floor(Math.random() * candidatosMesmaPos.length)
+              ];
+            console.log(
+              '👑 Capitão A (sorteado):',
+              cap1.nome,
+              '-',
+              cap1.mg,
+              '-',
+              cap1.pos
+            );
+            console.log(
+              '👑 Capitão B (sorteado):',
+              cap2.nome,
+              '-',
+              cap2.mg,
+              '-',
+              cap2.pos
+            );
+            return { capitaoA: cap1, capitaoB: cap2 };
+          }
+        }
+
+        console.warn(
+          'Não foi possível encontrar dois capitães da mesma posição.'
+        );
+        return { capitaoA: null, capitaoB: null };
+      }
+    </script>
+  </body>
+</html>

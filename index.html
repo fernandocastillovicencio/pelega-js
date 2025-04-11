@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página com Abas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div id="app">
+        <!-- Abas -->
+        <div class="tabs">
+            <button class="tab-button active" id="ranking-tab" onclick="showTab('ranking')">Ranking</button>
+            <button class="tab-button" id="times-tab" onclick="showTab('times')">Times</button>
+            <button class="tab-button" id="jogadores-tab" onclick="showTab('jogadores')">Jogadores</button>
+        </div>
+
+        <!-- Conteúdo das Abas -->
+        <div id="ranking" class="tab-content">
+            <h1>Ranking de Jogadores</h1>
+            <table id="ranking-table">
+                <thead>
+                    <tr>
+                        <th>Jogador</th>
+                        <th>Gols</th>
+                        <th>Pontos</th>
+                        <th>Vitórias</th>
+                        <th>Empates</th>
+                        <th>Derrotas</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <div id="times" class="tab-content">
+            <h1>Times</h1>
+            <ul>
+                <li>Time Vermelho</li>
+                <li>Time Azul</li>
+                <li>Time Verde</li>
+            </ul>
+        </div>
+
+        <div id="jogadores" class="tab-content">
+            <h1>Jogadores</h1>
+            <ul>
+                <li>rafael</li>
+                <li>joarez</li>
+                <li>jhonny</li>
+                <li>pedrow</li>
+                <li>julianor</li>
+                <li>tiago</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -189,6 +189,62 @@
   <p><strong>Capitão B:</strong> ${capitaoB.nome} (mg: ${capitaoB.mg}, pos: ${capitaoB.pos})</p>
 `;
           document.getElementById('app').appendChild(div);
+
+          const { timeA, timeB } = escolherTimesAlternado(
+            jogadoresConfirmados,
+            capitaoA,
+            capitaoB
+          );
+
+          function organizarPorPosicao(lista) {
+            return {
+              Z: lista.filter((j) => j.pos === 'Z'),
+              M: lista.filter((j) => j.pos === 'M'),
+              A: lista.filter((j) => j.pos === 'A'),
+            };
+          }
+
+          function mediaTime(lista) {
+            const soma = lista.reduce(
+              (acc, j) => acc + (parseFloat(j.mg) || 3),
+              0
+            );
+            return (soma / lista.length).toFixed(2);
+          }
+
+          const organizadoA = organizarPorPosicao(timeA);
+          const organizadoB = organizarPorPosicao(timeB);
+
+          const mediaA = mediaTime(timeA);
+          const mediaB = mediaTime(timeB);
+
+          const box = document.createElement('div');
+          box.innerHTML = `
+  <h3>Times Montados:</h3>
+  <div style="display: flex; gap: 40px; justify-content: center;">
+    <div>
+      <h4>Time A</h4>
+      <strong>Zagueiros:</strong>
+      <ul>${organizadoA.Z.map((j) => `<li>${j.nome}</li>`).join('')}</ul>
+      <strong>Meias:</strong>
+      <ul>${organizadoA.M.map((j) => `<li>${j.nome}</li>`).join('')}</ul>
+      <strong>Atacantes:</strong>
+      <ul>${organizadoA.A.map((j) => `<li>${j.nome}</li>`).join('')}</ul>
+      <p><strong>Média do Time A:</strong> ${mediaA}</p>
+    </div>
+    <div>
+      <h4>Time B</h4>
+      <strong>Zagueiros:</strong>
+      <ul>${organizadoB.Z.map((j) => `<li>${j.nome}</li>`).join('')}</ul>
+      <strong>Meias:</strong>
+      <ul>${organizadoB.M.map((j) => `<li>${j.nome}</li>`).join('')}</ul>
+      <strong>Atacantes:</strong>
+      <ul>${organizadoB.A.map((j) => `<li>${j.nome}</li>`).join('')}</ul>
+      <p><strong>Média do Time B:</strong> ${mediaB}</p>
+    </div>
+  </div>
+`;
+          document.getElementById('app').appendChild(box);
         });
       }
       <!-- ----------------------------------------------------------------------- -->
@@ -238,6 +294,72 @@
           'Não foi possível encontrar dois capitães da mesma posição.'
         );
         return { capitaoA: null, capitaoB: null };
+      }
+      // (5) Realiza a escolha alternada dos jogadores
+      function escolherTimesAlternado(lista, capitaoA, capitaoB) {
+        const timeA = [capitaoA];
+        const timeB = [capitaoB];
+
+        const restantes = lista.filter(
+          (j) => j.id !== capitaoA.id && j.id !== capitaoB.id
+        );
+
+        // Conta quantos por posição já há em cada time
+        const contagem = (time) => {
+          return {
+            Z: time.filter((j) => j.pos === 'Z').length,
+            M: time.filter((j) => j.pos === 'M').length,
+            A: time.filter((j) => j.pos === 'A').length,
+          };
+        };
+
+        let turno = 'B'; // Capitão B começa
+
+        while (restantes.length > 0) {
+          const timeAtual = turno === 'A' ? timeA : timeB;
+          const outroTime = turno === 'A' ? timeB : timeA;
+
+          const contAtual = contagem(timeAtual);
+          const contOutro = contagem(outroTime);
+
+          // Define a posição mais carente
+          const posicoes = ['Z', 'M', 'A'];
+          const faltando = posicoes.sort((a, b) => contAtual[a] - contAtual[b]);
+
+          let posDesejada = faltando[0];
+
+          // Filtra os jogadores disponíveis na posição desejada
+          let candidatos = restantes.filter((j) => j.pos === posDesejada);
+
+          // Se não houver na posição, pega qualquer um
+          if (candidatos.length === 0) {
+            candidatos = [...restantes];
+          }
+
+          // Ordena candidatos por melhor média
+          candidatos.sort((a, b) => b.mg - a.mg);
+
+          const escolhido = candidatos[0];
+          timeAtual.push(escolhido);
+
+          // Remove o escolhido da lista
+          const idx = restantes.findIndex((j) => j.id === escolhido.id);
+          if (idx !== -1) restantes.splice(idx, 1);
+
+          // Alterna turno
+          turno = turno === 'A' ? 'B' : 'A';
+        }
+
+        console.log(
+          '🏆 Time A:',
+          timeA.map((j) => j.nome)
+        );
+        console.log(
+          '🏆 Time B:',
+          timeB.map((j) => j.nome)
+        );
+
+        return { timeA, timeB };
       }
     </script>
   </body>

@@ -52,39 +52,39 @@ export function renderCapitaes(capitaoA, capitaoB) {
   `;
   document.getElementById('app').appendChild(div);
 }
+/* -------------------------------------------------------------------------- */
+/*                                RENDER TIMES                                */
+/* -------------------------------------------------------------------------- */
+import { organizarPorPosicao } from '../core/equilibrio.js';
 
 export function renderTimes(timeA, timeB) {
   const organizadoA = organizarPorPosicao(timeA);
   const organizadoB = organizarPorPosicao(timeB);
 
-  const mediaA = mediaTime(timeA);
-  const mediaB = mediaTime(timeB);
-
   const box = document.createElement('div');
+  box.id = 'times-box';
   box.innerHTML = `
-    <h3>Times Montados:</h3>
-    <div style="display: flex; gap: 40px; justify-content: center;">
-      <div>
-        <h4>Time A</h4>
-        <strong>Zagueiros:</strong>
-        <ul>${organizadoA.Z.map((j) => `<li>${j.nome}</li>`).join('')}</ul>
-        <strong>Meias:</strong>
-        <ul>${organizadoA.M.map((j) => `<li>${j.nome}</li>`).join('')}</ul>
-        <strong>Atacantes:</strong>
-        <ul>${organizadoA.A.map((j) => `<li>${j.nome}</li>`).join('')}</ul>
-        <p><strong>Média do Time A:</strong> ${mediaA}</p>
-      </div>
-      <div>
-        <h4>Time B</h4>
-        <strong>Zagueiros:</strong>
-        <ul>${organizadoB.Z.map((j) => `<li>${j.nome}</li>`).join('')}</ul>
-        <strong>Meias:</strong>
-        <ul>${organizadoB.M.map((j) => `<li>${j.nome}</li>`).join('')}</ul>
-        <strong>Atacantes:</strong>
-        <ul>${organizadoB.A.map((j) => `<li>${j.nome}</li>`).join('')}</ul>
-        <p><strong>Média do Time B:</strong> ${mediaB}</p>
-      </div>
-    </div>
+    <h3>Time A <span style="color: red;">(vermelho)</span></h3>
+    <p><strong>ZAG:</strong> | ${organizadoA.Z.map((j) => j.nome).join(
+      ' | '
+    )} |</p>
+    <p><strong>MEI:</strong> | ${organizadoA.M.map((j) => j.nome).join(
+      ' | '
+    )} |</p>
+    <p><strong>ATA:</strong> | ${organizadoA.A.map((j) => j.nome).join(
+      ' | '
+    )} |</p>
+
+    <h3>Time B <span style="color: blue;">(azul)</span></h3>
+    <p><strong>ZAG:</strong> | ${organizadoB.Z.map((j) => j.nome).join(
+      ' | '
+    )} |</p>
+    <p><strong>MEI:</strong> | ${organizadoB.M.map((j) => j.nome).join(
+      ' | '
+    )} |</p>
+    <p><strong>ATA:</strong> | ${organizadoB.A.map((j) => j.nome).join(
+      ' | '
+    )} |</p>
   `;
   document.getElementById('app').appendChild(box);
 }

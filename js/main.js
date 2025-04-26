@@ -1,135 +1,60 @@
-import {
-  carregarBase,
-  calcularMG,
-  posicaoTatica,
-  extrairNomes,
-} from './core/dados.js';
+// main.js
+// Arquivo principal que orquestra o carregamento de dados, cálculo de estatísticas e renderização na página.
 
-import {
-  selecionarCapitaes,
-  escolherTimesAlternado,
-} from './core/equilibrio.js';
+// Importa as funções necessárias de outros módulos.
+// Cada módulo tem uma responsabilidade específica:
+import { carregarBaseJogadores } from "./baseJogadores.js"; // Carrega dados dos jogadores (do CSV).
+import { carregarJogos } from "./parseJogos.js"; // Carrega e processa dados dos jogos (do TXT).
+import { calcularEstatisticas } from "./calcularEstatisticas.js"; // Calcula as estatísticas com base nos jogadores e jogos.
+import { renderizarTabelas } from "./renderTabelas.js"; // Renderiza as tabelas de estatísticas na página.
+import { renderizarDestaques } from "./renderDestaques.js"; // Renderiza os cards de destaque (melhor jogador, etc.).
 
-import {
-  renderListaConfirmados,
-  preencherSelectFixos,
-  renderCapitaes,
-  renderTimes,
-} from './ui/render.js';
+// Adiciona um ouvinte de evento ao botão com o ID "btnProcessar".
+// Quando o botão for clicado, a função assíncrona definida abaixo será executada.
+document.getElementById("btnProcessar").addEventListener("click", async () => {
+  // O uso de 'async' aqui permite que usemos 'await' dentro da função,
+  // o que é necessário para esperar que as operações de carregamento de dados (fetch) terminem.
 
-let baseJogadores = {};
-let jogadoresConfirmados = [];
+  // Inicia um bloco try...catch para lidar com possíveis erros durante o processamento.
+  // Se qualquer uma das etapas dentro do 'try' falhar, o controle passará para o bloco 'catch'.
+  try {
+    // Exibe uma mensagem no console indicando o início do processamento.
+    console.log("🔵 Processando dados...");
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Usa o ID específico do botão para vinculação do evento.
-  document
-    .getElementById('btnProcessar')
-    .addEventListener('click', processarLista);
-});
+    // 1. Carrega a base de dados dos jogadores.
+    // Chama a função 'carregarBaseJogadores' e espera (await) sua conclusão.
+    // O resultado (um objeto com os dados dos jogadores) é armazenado na constante 'baseJogadores'.
+    const baseJogadores = await carregarBaseJogadores();
 
-function processarLista() {
-  console.log('✅ Botão clicado! processarLista() acionado.');
+    // 2. Carrega o histórico de jogos.
+    // Chama a função 'carregarJogos' e espera (await) sua conclusão.
+    // O resultado (um array de objetos de jogo) é armazenado na constante 'jogos'.
+    const jogos = await carregarJogos();
 
-  const texto = document.getElementById('inputLista').value;
-  // Debug: confira o texto colado
-  console.log('Texto do textarea:', texto);
+    // 3. Calcula as estatísticas.
+    // Chama a função 'calcularEstatisticas', passando os dados carregados ('jogos' e 'baseJogadores').
+    // Esta função é síncrona (não precisa de await) pois apenas processa dados já em memória.
+    // O resultado (um objeto com as estatísticas calculadas por jogador) é armazenado na constante 'estatisticas'.
+    const estatisticas = calcularEstatisticas(jogos, baseJogadores);
 
-  const nomesExtraidos = extrairNomes(texto);
-  console.log('Nomes extraídos:', nomesExtraidos);
+    // 4. Renderiza os destaques na página.
+    // Chama a função 'renderizarDestaques', passando as estatísticas calculadas.
+    // Esta função atualizará os elementos HTML correspondentes aos destaques (ex: artilheiro).
+    renderizarDestaques(estatisticas);
 
-  if (nomesExtraidos.length === 0) {
-    console.warn('Nenhum nome extraído. Verifique a formatação da lista.');
-    return;
+    // 5. Renderiza as tabelas de estatísticas na página.
+    // Chama a função 'renderizarTabelas', passando as estatísticas calculadas.
+    // Esta função usará a biblioteca Tabulator (ou similar) para criar/atualizar as tabelas na interface.
+    renderizarTabelas(estatisticas);
+
+    // Exibe uma mensagem no console indicando que o processamento foi concluído com sucesso.
+    console.log("✅ Processamento concluído.");
+
+    // Fim do bloco 'try'.
+  } catch (erro) {
+    // Se ocorrer qualquer erro no bloco 'try', este bloco 'catch' será executado.
+    // Exibe uma mensagem de erro detalhada no console, incluindo o objeto de erro.
+    // Isso ajuda na depuração para identificar onde e por que o processo falhou.
+    console.error("❌ Erro ao processar:", erro);
   }
-
-  carregarBase((base) => {
-    baseJogadores = base;
-    console.log('✅ Jogadores carregados (IDs):', Object.keys(baseJogadores));
-
-    jogadoresConfirmados = [];
-    nomesExtraidos.forEach((id) => {
-      let jogador = baseJogadores[id];
-      if (!jogador) {
-        console.warn(
-          `Jogador "${id}" não encontrado na base. Usando valores padrão.`
-        );
-        jogador = {
-          id: id,
-          Nome: id,
-          Defesa: 3,
-          Físico: 3,
-          Tática: 3,
-          Velocidade: 3,
-          Técnica: 3,
-          Ataque: 3,
-        };
-      }
-      jogadoresConfirmados.push({
-        id: id,
-        nome: jogador.Nome,
-        mg: calcularMG(jogador),
-        pos: posicaoTatica(jogador),
-        ...jogador,
-      });
-    });
-
-    console.log(
-      '✅ Jogadores confirmados:',
-      jogadoresConfirmados.map((j) => j.nome)
-    );
-
-    // Renderiza a lista de jogadores identificados e preenche os selects
-    renderListaConfirmados(jogadoresConfirmados);
-    preencherSelectFixos(jogadoresConfirmados);
-
-    // Detecta jogadores fixos (caso o usuário os selecione manualmente)
-    const idFixo1 = document.getElementById('fixo1').value;
-    const idFixo2 = document.getElementById('fixo2').value;
-
-    let capitaoA, capitaoB;
-    let timeAfixoExtra = null;
-    let listaParaSortear = jogadoresConfirmados;
-
-    if (idFixo1 && idFixo2 && idFixo1 !== idFixo2) {
-      const jogador1 = jogadoresConfirmados.find((j) => j.id === idFixo1);
-      const jogador2 = jogadoresConfirmados.find((j) => j.id === idFixo2);
-      if (jogador1 && jogador2) {
-        console.log(
-          `✅ Jogadores fixos selecionados: ${jogador1.nome} e ${jogador2.nome}`
-        );
-        capitaoA = jogador1;
-        timeAfixoExtra = jogador2;
-        listaParaSortear = jogadoresConfirmados.filter(
-          (j) => j.id !== idFixo1 && j.id !== idFixo2
-        );
-        capitaoB = null; // Não haverá capitão B se os dois forem fixados no Time A
-      }
-    } else {
-      const capit = selecionarCapitaes(jogadoresConfirmados);
-      capitaoA = capit.capitaoA;
-      capitaoB = capit.capitaoB;
-      console.log(
-        `✅ Capitães sorteados: ${capitaoA?.nome} e ${capitaoB?.nome}`
-      );
-    }
-
-    // Limpa renderizações anteriores (exceto a estrutura principal)
-    document
-      .getElementById('app')
-      .querySelectorAll('div, h3')
-      .forEach((el) => {
-        if (!el.closest('nav') && el.id !== 'listaConfirmados') el.remove();
-      });
-
-    renderCapitaes(capitaoA, capitaoB);
-
-    const { timeA, timeB } = escolherTimesAlternado(
-      listaParaSortear,
-      capitaoA,
-      capitaoB,
-      timeAfixoExtra
-    );
-
-    renderTimes(timeA, timeB);
-  });
-}
+}); // Fim do ouvinte de evento 'click'.

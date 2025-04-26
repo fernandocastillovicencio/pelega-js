@@ -1,0 +1,106 @@
+/* Estilo geral */
+/* Define estilos base para todo o corpo do documento. */
+body {
+  margin: 0; /* Remove a margem padrão do navegador. */
+  padding: 0; /* Remove o preenchimento padrão do navegador. */
+  background-color: #121212; /* Define um fundo escuro para a página (tema dark). */
+  color: #e0e0e0; /* Define uma cor de texto clara padrão, contrastando com o fundo escuro. */
+  font-family: "Arial", sans-serif; /* Define a família de fontes principal, com fallback genérico sans-serif. */
+}
+
+/* Estiliza o container principal da aplicação. */
+#app {
+  width: 90%; /* Define a largura do container como 90% da largura da viewport. */
+  max-width: 1200px; /* Define uma largura máxima para evitar que fique muito largo em telas grandes. */
+  margin: 0 auto; /* Centraliza o container horizontalmente na página. */
+  padding: 20px; /* Adiciona preenchimento interno ao redor do conteúdo do container. */
+  text-align: center; /* Centraliza o texto dentro do container principal. */
+}
+
+/* Estiliza os elementos de cabeçalho h1 e h2. */
+h1,
+h2 {
+  margin-bottom: 20px; /* Adiciona espaço abaixo dos títulos para separá-los do conteúdo seguinte. */
+}
+
+/* Botão principal */
+/* Estiliza o botão de processamento. */
+#btnProcessar {
+  padding: 10px 20px; /* Define o preenchimento interno do botão (vertical e horizontal). */
+  font-size: 16px; /* Define o tamanho da fonte do texto do botão. */
+  background-color: #4caf50; /* Define a cor de fundo do botão (verde). */
+  border: none; /* Remove a borda padrão do botão. */
+  color: white; /* Define a cor do texto do botão como branca. */
+  cursor: pointer; /* Muda o cursor para um ponteiro ao passar sobre o botão, indicando interatividade. */
+  border-radius: 5px; /* Arredonda os cantos do botão. */
+}
+
+/* Define o estilo do botão quando o mouse está sobre ele (hover). */
+#btnProcessar:hover {
+  background-color: #45a049; /* Escurece ligeiramente a cor de fundo para dar feedback visual. */
+}
+
+/* Destaques */
+/* Estiliza a seção que contém os boxes de destaque. */
+#destaques {
+  display: flex; /* Habilita o layout Flexbox para organizar os itens filhos. */
+  flex-wrap: wrap; /* Permite que os itens quebrem para a próxima linha se não couberem na largura. */
+  justify-content: center; /* Centraliza os itens horizontalmente dentro do container flex. */
+  gap: 20px; /* Define o espaçamento entre os itens flex (os boxes de destaque). */
+  margin: 40px 0; /* Adiciona margem vertical acima e abaixo da seção de destaques. */
+}
+
+/* Estiliza cada caixa individual de destaque. */
+.destaque-box {
+  background-color: #1e1e1e; /* Define uma cor de fundo ligeiramente mais clara que o body para as caixas. */
+  border-radius: 10px; /* Arredonda os cantos das caixas de destaque. */
+  padding: 20px; /* Adiciona preenchimento interno às caixas. */
+  width: 280px; /* Define uma largura fixa para as caixas de destaque. */
+  text-align: center; /* Centraliza o texto dentro de cada caixa. */
+  box-shadow: 0 0 10px #333; /* Adiciona uma sombra sutil para dar profundidade às caixas. */
+}
+
+/* Estiliza as imagens dentro das caixas de destaque (provavelmente fotos dos jogadores). */
+.destaque-box img {
+  width: 80px; /* Define a largura da imagem. */
+  height: 80px; /* Define a altura da imagem. */
+  object-fit: cover; /* Garante que a imagem cubra a área designada sem distorcer, cortando se necessário. */
+  border-radius: 50%; /* Torna a imagem circular. */
+  margin-bottom: 10px; /* Adiciona espaço abaixo da imagem. */
+}
+
+/* Estiliza os títulos (h3) dentro das caixas de destaque (provavelmente nomes). */
+.destaque-box h3 {
+  margin-top: 10px; /* Adiciona espaço acima do título. */
+  font-size: 22px; /* Define o tamanho da fonte do título. */
+  color: #ffffff; /* Define a cor do texto do título como branca. */
+}
+
+/* Estiliza os parágrafos (p) dentro das caixas de destaque (provavelmente estatísticas). */
+.destaque-box p {
+  margin: 5px 0; /* Adiciona uma pequena margem vertical ao redor dos parágrafos. */
+  font-size: 16px; /* Define o tamanho da fonte do texto. */
+  color: #cccccc; /* Define uma cor de texto cinza claro para as estatísticas. */
+}
+
+/* Tabelas */
+/* Estiliza a seção que contém as tabelas de ranking. */
+#tabelas {
+  margin-top: 50px; /* Adiciona uma margem significativa acima da seção de tabelas para separá-la dos destaques. */
+  /* Nota: Estilos específicos das tabelas (linhas, colunas, etc.) provavelmente são aplicados pela biblioteca Tabulator.js */
+}
+
+/* Responsividade */
+/* Define estilos que serão aplicados apenas em telas com largura máxima de 768px (tablets e smartphones). */
+@media (max-width: 768px) {
+  /* Ajusta o layout da seção de destaques em telas menores. */
+  #destaques {
+    flex-direction: column; /* Muda a direção do flex para coluna (empilha os itens verticalmente). */
+    align-items: center; /* Centraliza os itens na direção transversal (horizontal, neste caso). */
+  }
+
+  /* Ajusta a largura das caixas de destaque em telas menores. */
+  .destaque-box {
+    width: 90%; /* Faz com que as caixas ocupem 90% da largura disponível, tornando-as mais largas e legíveis. */
+  }
+}

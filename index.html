@@ -1,61 +1,61 @@
 <!DOCTYPE html>
+<!-- Declaração padrão do tipo de documento, especificando HTML5. -->
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página com Abas</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+  <!-- Elemento raiz do documento HTML. O atributo 'lang' define o idioma principal como Português do Brasil, importante para acessibilidade e SEO. -->
+
+  <head>
+    <!-- Seção de cabeçalho: contém metadados essenciais sobre o documento. -->
+    <meta charset="UTF-8" />
+    <!-- Define a codificação de caracteres como UTF-8, garantindo a correta exibição de caracteres especiais. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Configura a viewport para design responsivo, adaptando a largura ao dispositivo e definindo a escala inicial. -->
+    <title>Estatísticas da Pelada</title>
+    <!-- Define o título da página, exibido na aba ou janela do navegador. -->
+    <link rel="stylesheet" href="css/styles.css" />
+    <!-- Vincula a folha de estilos CSS externa para aplicar a aparência visual à página. -->
+  </head>
+
+  <body>
+    <!-- Corpo do documento: contém todo o conteúdo visível da página web. -->
 
     <div id="app">
-        <!-- Abas -->
-        <div class="tabs">
-            <button class="tab-button active" id="ranking-tab" onclick="showTab('ranking')">Ranking</button>
-            <button class="tab-button" id="times-tab" onclick="showTab('times')">Times</button>
-            <button class="tab-button" id="jogadores-tab" onclick="showTab('jogadores')">Jogadores</button>
-        </div>
+      <!-- Container principal da aplicação. O ID 'app' é frequentemente utilizado como ponto de montagem para frameworks JavaScript ou para encapsular a lógica da interface do usuário. -->
 
-        <!-- Conteúdo das Abas -->
-        <div id="ranking" class="tab-content">
-            <h1>Ranking de Jogadores</h1>
-            <table id="ranking-table">
-                <thead>
-                    <tr>
-                        <th>Jogador</th>
-                        <th>Gols</th>
-                        <th>Pontos</th>
-                        <th>Vitórias</th>
-                        <th>Empates</th>
-                        <th>Derrotas</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
+      <h1>Estatísticas da Pelada</h1>
+      <!-- Título principal da página, fornecendo o contexto principal para o usuário. -->
 
-        <div id="times" class="tab-content">
-            <h1>Times</h1>
-            <ul>
-                <li>Time Vermelho</li>
-                <li>Time Azul</li>
-                <li>Time Verde</li>
-            </ul>
-        </div>
+      <!-- Botão de Ação Principal -->
+      <!-- Elemento interativo que dispara a ação de processamento dos dados dos jogos. O ID 'btnProcessar' permite que o JavaScript o selecione para adicionar um ouvinte de eventos (event listener). -->
+      <button id="btnProcessar">🔄 Processar Jogos</button>
 
-        <div id="jogadores" class="tab-content">
-            <h1>Jogadores</h1>
-            <ul>
-                <li>rafael</li>
-                <li>joarez</li>
-                <li>jhonny</li>
-                <li>pedrow</li>
-                <li>julianor</li>
-                <li>tiago</li>
-            </ul>
-        </div>
+      <!-- Seção de Destaques -->
+      <!-- Agrupa os principais indicadores ou estatísticas resumidas (KPIs). Os divs internos servirão como placeholders para dados dinâmicos (maior goleador, melhor aproveitamento, melhor defesa), preenchidos via JavaScript. A classe 'destaque-box' pode ser usada para estilização comum. -->
+      <section id="destaques">
+        <div id="maiorGoleador" class="destaque-box"></div>
+        <div id="melhorAproveitamento" class="destaque-box"></div>
+        <div id="melhorDefesa" class="destaque-box"></div>
+      </section>
+
+      <!-- Seção de Tabelas de Ranking -->
+      <!-- Contém as visualizações detalhadas dos dados em formato de tabela. Cada subtítulo (h2) introduz um ranking específico, e os divs subsequentes ('tabela-pontos', 'tabela-gols', 'tabela-defesa') atuarão como containers para as tabelas geradas dinamicamente, provavelmente pela biblioteca Tabulator. -->
+      <section id="tabelas">
+        <h2>Ranking por Pontos/Jogo</h2>
+        <div id="tabela-pontos"></div>
+
+        <h2>Ranking por Gols/Jogo</h2>
+        <div id="tabela-gols"></div>
+
+        <h2>Ranking por Gols Contra/Jogo</h2>
+        <div id="tabela-defesa"></div>
+      </section>
     </div>
+    <!-- Fim do container principal 'app'. -->
 
-    <script src="app.js"></script>
-</body>
+    <!-- Bloco de Scripts -->
+    <!-- Carrega as bibliotecas JavaScript externas e o código principal da aplicação, geralmente colocados no final do body para otimizar o carregamento da página. -->
+    <script src="https://unpkg.com/tabulator-tables@5.5.0/dist/js/tabulator.min.js"></script>
+    <!-- Inclui a biblioteca Tabulator (via CDN) para a criação de tabelas interativas. -->
+    <script type="module" src="js/main.js"></script>
+    <!-- Inclui o arquivo JavaScript principal da aplicação ('main.js'). O atributo 'type="module"' habilita o uso de módulos ES6 (import/export) neste script. -->
+  </body>
 </html>

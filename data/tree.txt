@@ -1,0 +1,7 @@
+/index.html                ← página principal
+/css/styles.css            ← estilo bonito e responsivo
+/js/processador.js         ← script para processar os jogos
+/js/tabulator.min.js       ← biblioteca de tabelas dinâmicas
+/data/jogadores.csv        ← base de jogadores oficial
+/data/jogos.txt            ← histórico de partidas
+/assets/jogadores/         ← imagens dos jogadores

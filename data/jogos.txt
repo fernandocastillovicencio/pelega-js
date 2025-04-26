@@ -1,0 +1,26 @@
+# ---------------------------------------------------------------------------- #
+data: 25/04/2025
+
+times: 2
+---
+# Time 1 - Vermelho
+rafael
+joarez (2)
+jhonny (3)
+guto
+albert
+marcoscareca
+vitor (1)
+---
+# Time 2 - Azul
+juarez
+edson
+pedroc (4)
+dudu (2)
+andre
+fernandoc
+amir (2)
+---
+
+jogos:
+vermelho 6 - azul 8

@@ -1,24 +1,24 @@
-id,Nome,Pos1,Pos2,Defesa,Físico,Tática,Velocidade,Técnica,Ataque,Responsa,Parceria,Média
-vinicius,Vinicius Zimmermann,LM,RM,2,1,2,2,2,2,1,3,1.83
-amir,Amir Shafa,LW,RW,1,1,2,1,4,3,2,4,2.00
-joao,João Carlos,CB,CB,3.5,3.5,3,2,2,1,5,3,2.50
-rodrigo,Rodriguinho Bonfim,RW,CAM,2,3,2,3,2,3,2,3,2.50
-julianor,Juliano Rodrigues,ST,RW,2,3,3,2,2,3,2,3,2.50
-edson,Edson de Paulo,CB,RB,3.5,2,3,3,3,1,4,4,2.58
-fernandoc, Fernando Castillo,ST,LB,2.5,3,3,2,3,3,3,4,2.67
-rafael,Rafael Strapasson,CB,CB,4,3,4,2,2,1,2,4,2.67
-bill,Bill Vesely,ST,LW,2,3,3,3,2,4,3,5,2.83
-alexandre,Alexandre,LW,LM,2,3,3,3,3,3,3,4,2.83
-albert,Albert Faria,CDM,CM,3.5,4,3,2,3,2.5,3,4,3.00
-pedrow, Pedro Zimmermann,RM,LM,3,3,3.5,3,3,3,2,3,3.08
-jhonny,Jhonny Vaccari,CM,RM,3,3,3.5,3,3.5,3,2,2,3.17
-wilson,Wilson Filho,ST,RW,1,3,4,3,4,4,3,4,3.17
-julianog,Juliano Gobbo,CAM,CM,2.5,3,4,3,4,3,4,4,3.25
-juarez,Juarez,CB,CB,5,4,5,3,2,1,3,4,3.33
-joarez,Joarez Santos,CAM,CM,2,2.5,4.5,2,5,4,5,4,3.33
-pedroc,Pedro Castillo,CAM,CM,2,3,4,3,4.5,4,3,4,3.42
-felipea,Felipe Argentino,CAM,CM,3,4,4,4,4.5,4,2,4,3.92
-tiago,Tiago Schloss,LW,LM,2.5,4,4.5,5,4,4,3,5,4.00
-andre,Andre Borges,CM,CAM,4,5,4,4,4,4,3,5,4.17
-vitor,Vitor Bruni,ST,LM,2.5,5,4.5,4,5,5,3,4,4.33
-dudu,Dudu Britto,CDM,CB,3.5,5,3.5,4,4,3,3,3,3.83
+id,Nome,Pos1,Pos2,Defesa,Físico,Tática,Velocidade,Técnica,Ataque,Responsa,Parceria,imagem
+vinicius,Vinicius Zimmermann,LM,RM,2,1,2,2,2,2,1,3,vinicius.png
+amir,Amir Shafa,LW,RW,1,1,2,1,4,3,2,4,amir.png
+joao,João Carlos,CB,CB,3.5,3.5,3,2,2,1,5,3,joao.png
+rodrigo,Rodriguinho Bonfim,RW,CAM,2,3,2,3,2,3,2,3,rodrigo.png
+julianor,Juliano Rodrigues,ST,RW,2,3,3,2,2,3,2,3,julianor.png
+edson,Edson de Paulo,CB,RB,3.5,2,3,3,3,1,4,4,edson.png
+fernandoc, Fernando Castillo,ST,LB,2.5,3,3,2,3,3,3,4,fernandoc.png
+rafael,Rafael Strapasson,CB,CB,4,3,4,2,2,1,2,4,rafael.png
+bill,Bill Vesely,ST,LW,2,3,3,3,2,4,3,5,bill.png
+alexandre,Alexandre,LW,LM,2,3,3,3,3,3,3,4,alexandre.png
+albert,Albert Faria,CDM,CM,3.5,4,3,2,3,2.5,3,4,albert.png
+pedrow, Pedro Zimmermann,RM,LM,3,3,3.5,3,3,3,2,3,pedrow.png
+jhonny,Jhonny Vaccari,CM,RM,3,3,3.5,3,3.5,3,2,2,jhonny.png
+wilson,Wilson Filho,ST,RW,1,3,4,3,4,4,3,4,wilson.png
+julianog,Juliano Gobbo,CAM,CM,2.5,3,4,3,4,3,4,4,julianog.png
+juarez,Juarez,CB,CB,5,4,5,3,2,1,3,4,juarez.png
+joarez,Joarez Santos,CAM,CM,2,2.5,4.5,2,5,4,5,4,joarez.png
+pedroc,Pedro Castillo,CAM,CM,2,3,4,3,4.5,4,3,4,pedroc.png
+felipea,Felipe Argentino,CAM,CM,3,4,4,4,4.5,4,2,4,felipea.png
+tiago,Tiago Schloss,LW,LM,2.5,4,4.5,5,4,4,3,5,tiago.png
+andre,Andre Borges,CM,CAM,4,5,4,4,4,4,3,5,andre.png
+vitor,Vitor Bruni,ST,LM,2.5,5,4.5,4,5,5,3,4,vitor.png
+dudu,Dudu Britto,CDM,CB,3.5,5,3.5,4,4,3,3,3,dudu.png

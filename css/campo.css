@@ -1,0 +1,177 @@
+:root {
+  --margem-vertical-pequena: 8px;
+  --margem-vertical-media: 12px;
+  --margem-vertical-grande: 20px;
+  --gap-times: 30px;
+  --cor-time-vermelho: #e53935;
+  --cor-time-azul: #1565c0;
+  --cor-default: #333;
+  --font-size-normal: 14px;
+  --font-size-gols: 32px;
+  --font-size-time: 22px;
+}
+
+.jogo {
+  margin-bottom: var(--margem-vertical-grande);
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.placar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size-normal);
+  margin-bottom: var(--margem-vertical-media);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex: 1;
+}
+
+.nome-time {
+  font-weight: bold;
+  text-transform: capitalize;
+  font-size: var(--font-size-time);
+}
+
+.gols {
+  font-size: var(--font-size-gols);
+  font-weight: bold;
+}
+
+.separador {
+  margin: 0 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.campo {
+  position: relative;
+  background: url("../assets/campo.png") center center no-repeat;
+  background-size: cover;
+  width: 100%;
+  max-width: 600px;
+  height: 400px;
+  margin: 30px auto;
+  border: 4px solid white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.meio-campo {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: white;
+  transform: translateX(-50%);
+}
+
+.lado {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* Centraliza os jogadores horizontalmente */
+  padding: 10px;
+}
+
+.campo-time1 {
+  left: 0;
+}
+
+.campo-time2 {
+  right: 0;
+}
+
+.linha-jogadores {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 5px 0;
+}
+
+.jogador {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 6px 10px;
+  margin: 5px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: capitalize;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.campos-times {
+  display: flex;
+  justify-content: center;
+  gap: var(--gap-times);
+  margin-top: var(--margem-vertical-media);
+}
+
+.campo {
+  position: relative;
+  background: url("../assets/campo.png") center center no-repeat;
+  background-size: cover;
+  width: 240px; /* Um pouco menor pra caber os dois */
+  height: 240px;
+  border: 4px solid white;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.linha-jogadores {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 5px 0;
+}
+
+.jogador {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 6px 10px;
+  margin: 5px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: capitalize;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+img {
+  width: 100%; /* Ajusta a largura da imagem para 100% do seu contêiner pai */
+  height: auto; /* Ajusta a altura automaticamente para manter a proporção */
+}
+
+.goleadores {
+  display: flex;
+  justify-content: space-between;
+  max-width: 600px;
+  margin: var(--margem-vertical-pequena) auto;
+  font-size: var(--font-size-normal);
+}
+
+.goleadores-time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}

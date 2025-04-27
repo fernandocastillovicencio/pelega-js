@@ -1,7 +1,12 @@
-/index.html                ← página principal
-/css/styles.css            ← estilo bonito e responsivo
-/js/processador.js         ← script para processar os jogos
-/js/tabulator.min.js       ← biblioteca de tabelas dinâmicas
-/data/jogadores.csv        ← base de jogadores oficial
-/data/jogos.txt            ← histórico de partidas
-/assets/jogadores/         ← imagens dos jogadores
+/
+├── index.html         (se quiser depois para navegar)
+├── jogos.html         (🔵 nossa página principal)
+│
+├── css/
+│   ├── campo.css      (estilo do campo de futebol)
+│
+├── js/
+│   ├── renderJogo.js  (desenha o campo e placar)
+│
+├── data/
+│   ├── jogos.txt      (dados dos jogos)

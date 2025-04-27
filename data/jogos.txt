@@ -22,5 +22,5 @@ fernandoc
 amir (2)
 ---
 
-jogos:
+placar:
 vermelho 6 - azul 8

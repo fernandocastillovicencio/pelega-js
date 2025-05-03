@@ -1,25 +1,24 @@
 # ---------------------------------------------------------------------------- #
-data: 25/04/2025
+data: 02/05/2025
 
 times: 2
 ---
 # Time 1 - Vermelho
-rafael
-joarez (2)
-jhonny (3)
-guto
+joao
 albert
-marcoscareca
-vitor (1)
+jhonny
+fernandoc (1)
+guto (2)
+vitor (2)
 ---
 # Time 2 - Azul
 juarez
-edson
-pedroc (4)
-dudu (2)
-andre
-fernandoc
-amir (2)
+dudu (-1)
+pedrow
+vinicius
+joarez (1)
+pedroc (7)
+bill
 ---
 
 placar:

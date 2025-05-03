@@ -191,25 +191,32 @@ function gerarGoleadores(jogo) {
   const time1 = jogo.times[0];
   const time2 = jogo.times[1];
 
-  const golsTime1 = time1.jogadores
-    .map((jogador) => extrairNomeEGols(jogador))
-    .filter((jg) => jg.gols > 0)
-    .map((jg) => `<div>${jg.nome} ${"⚽".repeat(jg.gols)}</div>`)
-    .join("");
+  const listaGolsTime1 = [];
+  const listaGolsTime2 = [];
 
-  const golsTime2 = time2.jogadores
-    .map((jogador) => extrairNomeEGols(jogador))
-    .filter((jg) => jg.gols > 0)
-    .map((jg) => `<div>${jg.nome} ${"⚽".repeat(jg.gols)}</div>`)
-    .join("");
+  time1.jogadores.map(extrairNomeEGols).forEach((jg) => {
+    if (jg.gols > 0) {
+      listaGolsTime1.push(`<div>${jg.nome} ${"⚽".repeat(jg.gols)}</div>`);
+    } else if (jg.gols < 0) {
+      listaGolsTime2.push(`<div>${jg.nome} ❌</div>`);
+    }
+  });
+
+  time2.jogadores.map(extrairNomeEGols).forEach((jg) => {
+    if (jg.gols > 0) {
+      listaGolsTime2.push(`<div>${jg.nome} ${"⚽".repeat(jg.gols)}</div>`);
+    } else if (jg.gols < 0) {
+      listaGolsTime1.push(`<div>${jg.nome} ❌</div>`);
+    }
+  });
 
   return `
     <div class="goleadores">
       <div class="goleadores-time">
-        ${golsTime1 || "<div>Sem gols</div>"}
+        ${listaGolsTime1.join("") || "<div>Sem gols</div>"}
       </div>
       <div class="goleadores-time">
-        ${golsTime2 || "<div>Sem gols</div>"}
+        ${listaGolsTime2.join("") || "<div>Sem gols</div>"}
       </div>
     </div>
   `;
@@ -222,10 +229,11 @@ function extrairNomeEGols(texto) {
   const match = texto.match(/^([^\(]+)\s*(\(([^)]+)\))?$/);
   if (match) {
     const nome = match[1].trim();
-    const gols = match[3] ? parseInt(match[3]) : 0;
-    return { nome, gols };
+    const raw = match[3] ? match[3].trim() : "0";
+    const gols = parseInt(raw);
+    return { nome, gols, contra: gols < 0 };
   }
-  return { nome: texto.trim(), gols: 0 };
+  return { nome: texto.trim(), gols: 0, contra: false };
 }
 
 function timeEmoji(nomeTime) {

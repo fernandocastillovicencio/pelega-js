@@ -159,21 +159,43 @@ function gerarJogadoresPorTime(time) {
   const timeCor = time.nome.toLowerCase();
   const corDeFundo = coresPastelEscuras[timeCor] || "#C0C0C0";
 
-  let linhas = [];
+  let goleiro = null;
+  const linhaJogadores = [];
 
-  for (let i = 0; i < jogadores.length; i += 3) {
-    const linhaJogadores = jogadores
+  for (let i = 0; i < jogadores.length; i++) {
+    const raw = jogadores[i];
+    if (raw.toUpperCase().startsWith("GK ")) {
+      const nomeGoleiro = extrairNomeJogador(raw.replace(/^GK /i, ""));
+      goleiro = nomeGoleiro;
+    } else {
+      linhaJogadores.push(raw);
+    }
+  }
+
+  let blocos = [];
+
+  if (goleiro) {
+    blocos.push(`
+      <div class="linha-goleiro">
+        <div class="jogador" style="background-color: ${corDeFundo}">${goleiro}</div>
+      </div>
+    `);
+  }
+
+  for (let i = 0; i < linhaJogadores.length; i += 3) {
+    const linha = linhaJogadores
       .slice(i, i + 3)
-      .map((jogador) => {
-        const nomeLimpo = extrairNomeJogador(jogador);
+      .map((j) => {
+        const nomeLimpo = extrairNomeJogador(j);
         return `<div class="jogador" style="background-color: ${corDeFundo}">${nomeLimpo}</div>`;
       })
       .join("");
-    linhas.push(`<div class="linha-jogadores">${linhaJogadores}</div>`);
+    blocos.push(`<div class="linha-jogadores">${linha}</div>`);
   }
 
-  return linhas.join("");
+  return blocos.join("");
 }
+
 // =============================================================================
 // extrair nome do jogador
 // =============================================================================

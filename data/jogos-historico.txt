@@ -1,4 +1,31 @@
 # ---------------------------------------------------------------------------- #
+data: 02/05/2025
+
+times: 2
+---
+# Time 1 - Vermelho
+joao
+albert
+jhonny
+fernandoc (1)
+guto (2)
+vitor (2)
+---
+# Time 2 - Azul
+GK Ademir
+juarez
+dudu (-1)
+pedrow
+vinicius
+joarez (1)
+pedroc (7)
+bill
+---
+
+placar:
+vermelho 6 - azul 
+
+# ---------------------------------------------------------------------------- #
 data: 09/05/2025
 
 times: 2
